@@ -60,7 +60,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => true,
                 'is_role_address'       => true,
-                'mailbox_verification'  => false,
+                'mailbox_verification'  => "false",
             ]),
         ]);
 
@@ -79,7 +79,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => true,
-                'mailbox_verification'  => true,
+                'mailbox_verification'  => "true",
             ]),
         ]);
 
@@ -98,7 +98,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => true,
                 'is_role_address'       => false,
-                'mailbox_verification'  => true,
+                'mailbox_verification'  => "true",
             ]),
         ]);
 
@@ -117,13 +117,51 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => false,
-                'mailbox_verification'  => false,
+                'mailbox_verification'  => "false",
             ]),
         ]);
 
         $rule = new EmailRule($client);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox']));
+    }
+
+    /**
+     * @test
+     */
+    public function mailgun_unknown_mailbox_verification_validates_if_not_strict()
+    {
+        $client = $this->getMockClient([
+            $this->getMailgunResponse([
+                'is_valid'              => true,
+                'is_disposable_address' => false,
+                'is_role_address'       => false,
+                'mailbox_verification'  => "unknown",
+            ]),
+        ]);
+
+        $rule = new EmailRule($client);
+
+        $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox']));
+    }
+
+    /**
+     * @test
+     */
+    public function mailgun_unknown_mailbox_verification_dont_validate_when_strict()
+    {
+        $client = $this->getMockClient([
+            $this->getMailgunResponse([
+                'is_valid'              => true,
+                'is_disposable_address' => false,
+                'is_role_address'       => false,
+                'mailbox_verification'  => "unknown",
+            ]),
+        ]);
+
+        $rule = new EmailRule($client);
+
+        $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox', 'strict']));
     }
 
     /**
@@ -136,7 +174,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => false,
-                'mailbox_verification'  => true,
+                'mailbox_verification'  => "true",
             ]),
         ]);
 
@@ -184,7 +222,7 @@ class EmailRuleTest extends TestCase
 
         $rule = new EmailRule($client);
 
-        $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['api']));
+        $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['strict']));
     }
 
     /**
@@ -198,7 +236,7 @@ class EmailRuleTest extends TestCase
 
         $rule = new EmailRule($client);
 
-        $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['api']));
+        $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['strict']));
     }
 
     protected function getMailgunResponse($data = [])

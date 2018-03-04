@@ -26,7 +26,7 @@ class EmailRule
         try {
             $mailgun = $this->getMailgunValidation($value, in_array('mailbox', $parameters));
         } catch (Exception $e) {
-            return !in_array('api', $parameters);
+            return !in_array('strict', $parameters);
         }
 
         if (!$mailgun->is_valid) {
@@ -41,7 +41,11 @@ class EmailRule
             return false;
         }
 
-        if (in_array('mailbox', $parameters) && !$mailgun->mailbox_verification) {
+        if (in_array('mailbox', $parameters) && $mailgun->mailbox_verification == "false") {
+            return false;
+        }
+
+        if (in_array('strict', $parameters) && $mailgun->mailbox_verification == "unknown") {
             return false;
         }
 

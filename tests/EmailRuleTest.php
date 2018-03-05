@@ -6,6 +6,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use Kouz\LaravelMailgunValidation\EmailRule;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class EmailRuleTest extends TestCase
 {
@@ -31,7 +32,9 @@ class EmailRuleTest extends TestCase
     {
         $client = new Client();
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'bar', []));
     }
@@ -45,7 +48,9 @@ class EmailRuleTest extends TestCase
             $this->getMailgunResponse(['is_valid' => false]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', []));
     }
@@ -64,7 +69,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', []));
     }
@@ -83,7 +90,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['role']));
     }
@@ -102,7 +111,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['disposable']));
     }
@@ -121,7 +132,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox']));
     }
@@ -140,7 +153,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox']));
     }
@@ -159,7 +174,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['mailbox', 'strict']));
     }
@@ -178,7 +195,9 @@ class EmailRuleTest extends TestCase
             ]),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', ['role', 'disposable', 'mailbox']));
     }
@@ -192,7 +211,9 @@ class EmailRuleTest extends TestCase
             new Response(500, [], ''),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', ['role', 'disposable', 'mailbox']));
     }
@@ -206,7 +227,9 @@ class EmailRuleTest extends TestCase
             new Response(200, [], 'this, is not Valid {} Json'),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertTrue($rule->validate('email', 'tkouzelis@outlook.com', ['role', 'disposable', 'mailbox']));
     }
@@ -220,7 +243,9 @@ class EmailRuleTest extends TestCase
             new Response(500, [], ''),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['strict']));
     }
@@ -234,7 +259,9 @@ class EmailRuleTest extends TestCase
             new Response(200, [], 'this, is not Valid {} Json'),
         ]);
 
-        $rule = new EmailRule($client);
+        $log = $this->getLogMock();
+
+        $rule = new EmailRule($client, $log);
 
         $this->assertFalse($rule->validate('email', 'tkouzelis@outlook.com', ['strict']));
     }
@@ -253,5 +280,14 @@ class EmailRuleTest extends TestCase
         $handler = HandlerStack::create($mock);
 
         return new Client(['handler' => $handler]);
+    }
+
+    public function getLogMock()
+    {
+        $stub = $this->createMock(LoggerInterface::class);
+
+        $stub->method('warning');
+
+        return $stub;
     }
 }

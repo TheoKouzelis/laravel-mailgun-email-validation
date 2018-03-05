@@ -2,19 +2,22 @@
 
 namespace Kouz\LaravelMailgunValidation;
 
-use GuzzleHttp\Client;
 use Exception;
+use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 
 class EmailRule
 {
     protected $client;
     protected $key;
+    protected $log;
     protected $url = 'https://api.mailgun.net/v3/address/private/validate';
 
-    public function __construct(Client $client, $key = '')
+    public function __construct(Client $client, LoggerInterface $log, $key = '')
     {
         $this->client = $client;
         $this->key = $key;
+        $this->log = $log;
     }
 
     public function validate($attribute, $value, $parameters)
@@ -26,6 +29,8 @@ class EmailRule
         try {
             $mailgun = $this->getMailgunValidation($value, in_array('mailbox', $parameters));
         } catch (Exception $e) {
+            $this->log->warning($e->getMessage(), [$e]);
+
             return !in_array('strict', $parameters);
         }
 

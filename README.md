@@ -26,11 +26,11 @@ Use the following rule to validate your email fields. The rule will first check 
 PHP's [FILTER_VALIDATE_EMAIL](http://php.net/manual/en/filter.filters.validate.php) and then will call 
 the Mailgun API.
 
-**mailgun_email:role,disposable,mailbox,strict**
+**mailgun_email:role,disposable,mailbox,strict**  
 The field under validation must be formatted as an e-mail address. The following flags can be added to
 apply additional validation:
 
 * **role** Don't allow role-based addresses.
 * **disposable** Don't allow disposable email domains.
-* **mailbox** Verify mailbox. Add strict flag to ensure that Mailgun was able to verify a mailbox and didn't reutrn "Unknown".
-* **strict** Always require a response from Mailgun to validate. By default if a API request fails the validation will pass. The strict flag ensures that a Mailgun response was recieved.
+* **mailbox** Verify mailbox. Add strict flag to ensure that Mailgun was able to verify a mailbox and didn't return "Unknown".
+* **strict** Always require a response from Mailgun to validate. By default if a API request fails, the validation will pass. The strict flag ensures that a Mailgun response was recieved.

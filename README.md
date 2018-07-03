@@ -1,6 +1,7 @@
 # Laravel Mailgun Email Validation
-Laravel email validation that uses the [Mailgun API](https://documentation.mailgun.com/en/latest/api-email-validation.html#email-validation) for 
-a three-step validation check.
+Laravel email validation that uses the [Mailgun API](https://documentation.mailgun.com/en/latest/api-email-validation.html#email-validation) for a three-step validation check.  
+
+To find examples of how validation rules can be applied in the Laravel framework, please view the [validation docs](https://laravel.com/docs/5.6/validation)
 
 ## Install
 Require via composer.

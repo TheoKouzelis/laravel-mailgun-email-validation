@@ -34,3 +34,14 @@ apply additional validation:
 * **disposable** Don't allow disposable email domains.
 * **mailbox** Verify mailbox. Add strict flag to ensure that Mailgun was able to verify a mailbox and didn't reutrn "Unknown".
 * **strict** Always require a response from Mailgun to validate. By default if a API request fails the validation will pass. The strict flag ensures that a Mailgun response was recieved.
+
+## License
+This project is licensed under a MIT License which you can find
+[in this LICENSE](https://github.com/TheoKouzelis/laravel-mailgun-email-validation/blob/master/LICENSE).
+
+## Feedback
+If you have any feedback, comments or suggestions, please feel free to open an issue within this repository.
+
+## Laravel Validation Rules
+This package is part of the Laravel Validation Rules collection. If you're after more useful validation rules, 
+head to the [Laravel Validation Rules](https://laravel-validation-rules.github.io/) website.

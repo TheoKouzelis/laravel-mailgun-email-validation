@@ -65,7 +65,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => true,
                 'is_role_address'       => true,
-                'mailbox_verification'  => "false",
+                'mailbox_verification'  => false,
             ]),
         ]);
 
@@ -86,7 +86,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => true,
-                'mailbox_verification'  => "true",
+                'mailbox_verification'  => true,
             ]),
         ]);
 
@@ -128,7 +128,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => false,
-                'mailbox_verification'  => "false",
+                'mailbox_verification'  => false,
             ]),
         ]);
 
@@ -191,7 +191,7 @@ class EmailRuleTest extends TestCase
                 'is_valid'              => true,
                 'is_disposable_address' => false,
                 'is_role_address'       => false,
-                'mailbox_verification'  => "true",
+                'mailbox_verification'  => true,
             ]),
         ]);
 

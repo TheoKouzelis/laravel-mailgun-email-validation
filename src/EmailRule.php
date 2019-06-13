@@ -38,19 +38,19 @@ class EmailRule
             return false;
         }
 
-        if (in_array('role', $parameters) && $mailgun->is_role_address) {
+        if (in_array('role', $parameters) && $mailgun->is_role_address === true) {
             return false;
         }
 
-        if (in_array('disposable', $parameters) && $mailgun->is_disposable_address) {
+        if (in_array('disposable', $parameters) && $mailgun->is_disposable_address === true) {
             return false;
         }
 
-        if (in_array('mailbox', $parameters) && $mailgun->mailbox_verification == "false") {
+        if (in_array('mailbox', $parameters) && $mailgun->mailbox_verification === false) {
             return false;
         }
 
-        if (in_array('strict', $parameters) && $mailgun->mailbox_verification == "unknown") {
+        if (in_array('strict', $parameters) && $mailgun->mailbox_verification === "unknown") {
             return false;
         }
 

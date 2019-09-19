@@ -16,7 +16,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'mailgun-email-validation');
 
-        $message = $this->app->translator->trans('mailgun-email-validation::validation.mailgun_email');
+        $message = $this->app->translator->get('mailgun-email-validation::validation.mailgun_email');
 
         Validator::extend('mailgun_email', 'Kouz\LaravelMailgunValidation\EmailRule@validate', $message);
     }

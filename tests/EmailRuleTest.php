@@ -5,7 +5,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use Kouz\LaravelMailgunValidation\EmailRule;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 use Psr\Log\LoggerInterface;
 
 class EmailRuleTest extends TestCase
@@ -24,6 +24,11 @@ class EmailRuleTest extends TestCase
         ],
         'reason' => null,
     ];
+
+    protected function getPackageProviders($app)
+    {
+        return ['Kouz\LaravelMailgunValidation\ServiceProvider'];
+    }
 
     /**
      * @test

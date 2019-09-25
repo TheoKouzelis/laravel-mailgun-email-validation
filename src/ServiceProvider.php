@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
+    protected $transKey = 'mailgun-email-validation::validation.mailgun_email';
+
     public function boot()
     {
         $this->publishes([
@@ -16,7 +18,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'mailgun-email-validation');
 
-        $message = $this->app->translator->trans('mailgun-email-validation::validation.mailgun_email');
+        $message = $this->getMessage();
 
         Validator::extend('mailgun_email', 'Kouz\LaravelMailgunValidation\EmailRule@validate', $message);
     }
@@ -26,5 +28,14 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->bind(EmailRule::class, function ($app) {
             return new EmailRule(new Client(), $app['log'], config('mailgun-email-validation.key'));
         });
+    }
+
+    protected function getMessage()
+    {
+        if (method_exists($this->app->translator, 'trans')) {
+            return $this->app->translator->trans($this->transKey);
+        }
+        
+        return $this->app->translator->get($this->transKey);
     }
 }

@@ -29,7 +29,7 @@ class EmailRule
         try {
             $mailgun = $this->getMailgunValidation($value, in_array('mailbox', $parameters));
         } catch (Exception $e) {
-            $this->log->warning($e->getMessage(), [$e]);
+            $this->log->warning('MAILGUN: VALIDATION: ' . $e->getMessage(), [$e]);
 
             return !in_array('strict', $parameters);
         }

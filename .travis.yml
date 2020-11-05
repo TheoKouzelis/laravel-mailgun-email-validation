@@ -45,7 +45,7 @@ matrix:
     - php: 7.3
       env: LARAVEL='7.*' TESTBENCH='5.*'
     - php: 7.3
-      env: LARAVEL='8.*' TESTBENCH='8.*'
+      env: LARAVEL='8.*' TESTBENCH='6.*'
     - php: 7.4
       env: LARAVEL='5.5.*' TESTBENCH='3.5.*'
     - php: 7.4
@@ -59,7 +59,7 @@ matrix:
     - php: 7.4
       env: LARAVEL='7.*' TESTBENCH='5.*'
     - php: 7.4
-      env: LARAVEL='8.*' TESTBENCH='8.*'
+      env: LARAVEL='8.*' TESTBENCH='6.*'
   fast_finish: true
 
 before_script:
